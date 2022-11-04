@@ -5,7 +5,6 @@ usuarios = []
 
 with open('usuarios.csv', 'r') as arquivo:
     leitor = DictReader(arquivo)
-    next(leitor)
     for linha in leitor:
         usuarios.append(linha)
 

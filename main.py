@@ -4,14 +4,6 @@ from csv import DictReader, writer
 from utils import Authentication, pass_gen
 from sistema import Sistema
 
-usuarios = []
-
-with open('usuarios.csv', 'r') as arquivo:
-    leitor = DictReader(arquivo)
-    next(leitor)
-    for linha in leitor:
-        usuarios.append(linha)
-
 
 def logar(user, password) -> None:
     janela.user.set('')
@@ -78,6 +70,9 @@ def abrir_tela_registro() -> None:
     Button(registro, text='Gerar e copiar senha', command=lambda: [generated.clipboard_clear(), gen_senha.set(gerar_senha()), generated.clipboard_append(gen_senha.get())]).place(relx=0.5, rely=0.93, anchor=CENTER)
 
 
+def enter_key(e) -> None:
+    logar(janela.user.get(), janela.password.get())
+
 # [generated.clipboard_clear(), gen_senha.set(pass_gen()), generated.clipboard_append(gen_senha.get()), generated.after(5000, generated.destroy())]
 
 
@@ -116,7 +111,10 @@ janela.password=StringVar()
 entrada_user=Entry(frame1, width=15, textvariable=janela.user).place(
     relx=0.5, rely=0.4, anchor=CENTER)
 entrada_pass=Entry(janela, width=15, textvariable=janela.password,
-                     show='*').place(relx=0.5, rely=0.5, anchor=CENTER)
+                     show='*')
+entrada_pass.place(relx=0.5, rely=0.5, anchor=CENTER)
+entrada_pass.bind('<Return>', enter_key)
+
 
 # Botão Entrar
 login=Button(janela, text='Entrar', background='#33ccca', activebackground='#5fe8e6', command=lambda: logar(
